@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "toolshop"
-version = "0.1.1"
+version = "0.1.2"
 description = "The Tool Framework for AI Agents"
 authors = ["Andrew Hannigan <Andrew.S.Hannigan@Gmail.com>"]
 readme = "README.md"
