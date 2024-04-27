@@ -5,18 +5,19 @@ import pathlib
 import os
 from typing import Optional
 
-from .base import Tool
+from .base import Tool, State
 from .logging import logger
 
 
-def make_file_tools(tools: list[str] = None):
+def make_file_tools(tools: list[str] = None, state: State = None):
     """Creates a set of file tools with shared state.
     
     Args:
         tools (list[str], optional): A list of tool names to include. If None, 
             all tools are included. Defaults to None.
     """
-    state = FileToolState()
+    if state is None:
+        state = State()
     
     read_file = ReadFile(state=state)
     read_directory = ReadDirectory(state=state)
@@ -30,29 +31,6 @@ def make_file_tools(tools: list[str] = None):
     
     x = locals()
     return [x[tool_name] for tool_name in tools]
-
-
-class FileToolState:
-    def __init__(self):
-        self.file_read_at = {}
-        self.file_updated_at = {}
-        self.coder_confirms = 0
-    
-    def record_file_read(self, file_path: str):
-        self.file_read_at[file_path] = datetime.datetime.now()
-    
-    def record_file_update(self, file_path: str):
-        self.file_updated_at[file_path] = datetime.datetime.now()
-    
-    def record_confirm(self):
-        self.coder_confirms += 1
-    
-    def raise_error_if_this_file_has_not_been_read_since_it_was_last_updated(self, file_path):
-        if file_path not in self.file_read_at:
-            raise ValueError("You must read the file before writing to it.")
-        
-        if file_path in self.file_updated_at and self.file_updated_at[file_path] > self.file_read_at[file_path]:
-            raise ValueError(f"File {file_path} must be re-read first.")
 
 
 class ReadFile(Tool):

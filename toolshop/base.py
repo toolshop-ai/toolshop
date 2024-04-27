@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from abc import ABC, abstractmethod
 from typing import Optional
 from textwrap import dedent
+import datetime
 
 import re
 
@@ -47,16 +48,16 @@ class Tool(ABC):
     def __init__(self, state = None, require_confirmation: bool = None):
         self.__name__ = self._camel_to_snake(self.__class__.__name__)
         self._state = state
-
+        
         if hasattr(self, "_require_confirmation"):
             self.require_confirmation = getattr(self, "_require_confirmation")
         
         if require_confirmation is not None:
             self.require_confirmation = require_confirmation
-
+        
         if self.call.__doc__:
             self.__doc__ = self.call.__doc__  
-
+        
     @abstractmethod
     def call(self, *args, **kwargs):
         pass
@@ -108,6 +109,9 @@ class Tool(ABC):
     def log_footer(self, result):
         logger.info("=" * len(f"=== {self.__name__}() ==="))
 
+    def post_call_hook(self):
+        pass
+
     def __call__(self, *args, **kwargs):
         self.log_header()
         self.log_params(*args, **kwargs)
@@ -120,6 +124,14 @@ class Tool(ABC):
         result = self.call(*args, **kwargs)
         self.log_result(result)
         self.log_footer(result)
+    
+        if self.state.get_result_to_file():
+            with open(self.state.get_result_to_file(), 'w') as f:
+                f.write(str(result))
+            
+            self.state.disable_result_to_file()
+        
+        self.post_call_hook()
 
         if self.return_result_to_agent():
             return result
@@ -138,3 +150,39 @@ class Tool(ABC):
 
         return partial_func
 
+
+
+class State:
+    def __init__(self):
+        self.file_read_at = {}
+        self.file_updated_at = {}
+        self.coder_confirms = 0
+        self.disable_result_to_file_attempts = 0
+    
+    def record_file_read(self, file_path: str):
+        self.file_read_at[file_path] = datetime.datetime.now()
+    
+    def record_file_update(self, file_path: str):
+        self.file_updated_at[file_path] = datetime.datetime.now()
+    
+    def record_confirm(self):
+        self.coder_confirms += 1
+    
+    def raise_error_if_this_file_has_not_been_read_since_it_was_last_updated(self, file_path):
+        if file_path not in self.file_read_at:
+            raise ValueError("You must read the file before writing to it.")
+        
+        if file_path in self.file_updated_at and self.file_updated_at[file_path] > self.file_read_at[file_path]:
+            raise ValueError(f"File {file_path} must be re-read first.")
+
+    def enable_result_to_file(self, path):
+        self._result_to_file = path
+
+    def get_result_to_file(self):
+        if hasattr(self, "_result_to_file"):
+            return self._result_to_file
+        else:
+            return None
+
+    def disable_result_to_file(self):
+        self._result_to_file = None
