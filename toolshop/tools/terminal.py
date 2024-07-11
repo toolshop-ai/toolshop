@@ -2,8 +2,8 @@ import httpx
 import subprocess
 from typing import List
 
-from .logging import logger
-from .base import Tool
+from toolshop.core.logging import logger
+from toolshop.core.base import Tool
 
 
 class PythonExec(Tool): 
@@ -54,17 +54,18 @@ def shell_helper(
     # Create the subprocess with both stdout and stderr being piped
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # Initialize the output string
     output = ''
 
     # Stream stdout
     for line in iter(process.stdout.readline, b''):
         decoded_line = line.decode()
         if log_lines:
+            if decoded_line[-1] == '\n':
+                decoded_line = decoded_line[:-1]
+                
             logger.info(decoded_line)
         output += decoded_line
 
-    # Close the stdout to avoid resource leaks
     process.stdout.close()
 
     # Capture stderr
@@ -74,7 +75,6 @@ def shell_helper(
             logger.info(error)
         output += error
 
-    # Close the stderr to avoid resource leaks
     process.stderr.close()
 
     # Wait for the process to finish and get the exit code

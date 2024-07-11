@@ -1,4 +1,4 @@
-from .base import Tool
+from toolshop.core.base import Tool
 
 class EnableResultToFile(Tool):
     def call(

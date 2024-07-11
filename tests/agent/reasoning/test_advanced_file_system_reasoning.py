@@ -1,7 +1,7 @@
 import os
 import pytest
 import tempfile
-from toolshop.agent.coder import Coder
+from toolshop.agent.agent import Agent
 from ..helpers import get_fixme_file, get_object
 
 class TestDoublyLinkedList:
@@ -37,7 +37,7 @@ class TestDoublyLinkedList:
 
     @pytest.mark.require_containerized_environment
     def test_fix_doubly_linked_list(self, fixme_file):
-        app = Coder(False)
+        app = Agent(False)
         
         app.do(f"Fix the DoublyLinkedListNode class in '{fixme_file}'. Keep the class signature the same.")
         
@@ -84,7 +84,7 @@ class TestMergeSort:
 
     @pytest.mark.require_containerized_environment
     def test_fix_merge_sort(self, fixme_file):
-        app = Coder(False)
+        app = Agent(False)
         
         app.do(f"Fix the merge_sort function in '{fixme_file}'. Keep the function signatures the same.")
         

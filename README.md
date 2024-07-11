@@ -1,7 +1,20 @@
 # Toolshop
-The Tool Framework for AI Agents
+A Tool Framework for AI Agents
+
+
+# Chat
+Toolshop ships with a default chatbot equipped with all of Toolshop's tools.
+
+To install and chat, run:
+```
+pip install toolshop
+ts chat
+```
+
 
 # Usage
+
+### Marvin
 ```
 from toolshop import all_tools
 from marvin.beta import Application
@@ -14,9 +27,10 @@ app.say("Write mergesort.py")
 app.say("Test mergesort.py")
 ```
 
+
 # Description
 Toolshop is a general framework for developing tools used by LLM Agents. By
-developing tools with Toolshop, your tools inherit many helpful features.
+developing tools with Toolshop, your tools inherit several helpful features.
 * __Configuration__: Toolshop tools are classes, not functions. This enables users
   to configure their tools for a particular session before passing them to the
   agent.
@@ -27,8 +41,7 @@ developing tools with Toolshop, your tools inherit many helpful features.
   that require more context than the tool call arguments alone. Examples might
   include prevention of multiple parallel edits to the same file, requiring file
   reads before file edits, and cost-based limits on tool usage.
-* __Compatibility__: Toolshop aims to be compatible with most major LLM frameworks. 
-  Avoid framework lock-in and easily use the same tools with different frameworks.
+
 
 # Design Philosphy
 
@@ -50,3 +63,17 @@ hand-holding. By instead enforcing constraints in the tools themselves, the
 planning and reasoning process native to the underlying agent is unhindered. The
 reasoning and planning capabilities of agentic AI offered by companies such as
 OpenAI and Anthropic will continue to improve over time.
+
+
+### Tools can share state
+It is powerful to enforce required order-of-operations at the tool-level, 
+rather than simply "encouraging" this at the prompt-level. Enforcing workflows at the
+tool-level can guarantee tools are used appropriately. An example use 
+case where a developer may wish to enforce tool-level rules
+are ReadFile and WriteFile tools. Here, you may want require that files are 
+always read (or re-read) before being written, so that the agent is always
+aware of the latest contents in the file before writing. 
+
+To assist in this pattern, Toolshop tools can share state to track. Toolshop 
+currently supports a global State class which, once instantiated, can be 
+injected into any tool via the `state` argument.

@@ -1,4 +1,4 @@
-from toolshop.terminal import Shell, PythonExec
+from toolshop.tools.terminal import Shell, PythonExec
 
 
 def test_smoke():

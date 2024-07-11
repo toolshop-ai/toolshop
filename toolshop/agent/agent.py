@@ -1,6 +1,5 @@
 
 from pathlib import Path
-import click
 from prompt_toolkit import PromptSession
 from rich.prompt import Confirm
 from marvin.beta import Application
@@ -9,14 +8,14 @@ from marvin.beta.assistants import Run
 from typing import Union
 import marvin
 
-from .instructions import get_coder_instructions
-from ..terminal import shell_helper
-from toolshop import all_tools
+from toolshop.agent.instructions import get_coder_instructions
+from toolshop.tools.terminal import shell_helper
+from toolshop.tools.misc import all_tools
 
-marvin.settings.openai.assistants.model = 'gpt-4-turbo'
+marvin.settings.openai.assistants.model = "gpt-4o"
 
 
-class Coder(Application):
+class Agent(Application):
     def __init__(
         self, 
         coder_is_interactive: bool = True
@@ -24,7 +23,7 @@ class Coder(Application):
         instructions = get_coder_instructions(coder_is_interactive)
 
         super().__init__(
-            name="Coder",
+            name="Agent",
             instructions=instructions,
             tools=all_tools(),  
         )

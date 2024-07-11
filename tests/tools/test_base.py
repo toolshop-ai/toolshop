@@ -1,5 +1,5 @@
 import pytest
-from toolshop.base import Tool, Documentation, Parameter
+from toolshop.core.base import Tool
 
 
 def test_tool_name():

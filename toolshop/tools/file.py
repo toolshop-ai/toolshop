@@ -1,12 +1,11 @@
 """This module contains tools for reading and writing files."""
 
-import datetime
 import pathlib
 import os
 from typing import Optional
 
-from .base import Tool, State
-from .logging import logger
+from ..core.base import Tool, State
+from ..core.logging import logger
 
 
 def make_file_tools(tools: list[str] = None, state: State = None):
@@ -81,19 +80,6 @@ class ReadDirectory(Tool):
     ):
         """
         Reads the files in a directory.
-
-        Args:
-            path (str): The path to the directory.
-            files_prefix_allowlist (list[str], optional): A list of file prefixes to allow. Defaults to None.
-            files_prefix_ignorelist (list[str], optional): A list of file prefixes to ignore. Defaults to ['.', '__'].
-            files_suffix_allowlist (list[str], optional): A list of file suffixes to allow. Defaults to None.
-            files_suffix_ignorelist (list[str], optional): A list of file suffixes to ignore. Defaults to None.
-            dirs_prefix_allowlist (list[str], optional): A list of directory prefixes to allow. Defaults to None.
-            dirs_prefix_ignorelist (list[str], optional): A list of directory prefixes to ignore. Defaults to ['.', '__'].
-            dirs_suffix_allowlist (list[str], optional): A list of directory suffixes to allow. Defaults to None.
-            dirs_suffix_ignorelist (list[str], optional): A list of directory suffixes to ignore. Defaults to None.
-            include_line_numbers (bool, optional): Whether to include line numbers in the returned contents. Defaults to True.
-            include_contents (bool, optional): Whether to include the contents of the files in the output. Defaults to True.
         """
         def filter_names(
             names,
@@ -206,50 +192,17 @@ class ReplaceLines(Tool):
     ) -> str:
         """Replaces the lines `start_line` to `end_line` with `text` in 
         specified file. Uses one-based indexing, and the `end_line` is inclusive. 
-        This operation must replace at least one line. To perform an insert-only 
-        operation, use `insert_lines()`. 
-
-        When using `replace_lines()`, always consider the broader
+        This operation must replace at least one line. When using `replace_lines()`, always consider the broader
         code context in the lines before and after your replacement. Use appropriate
         indentation in your `text` given the context of the surrounding code. 
         Consider the line that will follow your inserted text when choosing
-        `end_line`.
-
-        NOT THREAD-SAFE. Perform file modifications in a sequential manner to
-        ensure thread safety. Do not modify the same file in parallel or with
-        simultaneous asynchronous calls.
+        `end_line`. NOT THREAD-SAFE. Perform all file modifications in a sequential manner.
 
         Args:
             path (str): The name of the file to write to.
             text (str): The content to write to the file. Must end with a newline character.
             start_line (int): The line number of the start of the text block to replace.
             end_line (int): The line number of the end of the text block to replace. `end_line` is inclusive.
-        Usage:
-            === file.txt Before ===
-            ```
-            Line A
-            Line B
-            Line C
-            ```
-            
-            >>> replace_lines(
-                    path="./file.txt", 
-                    text="New Line\n",
-                    start_line=1,
-                    end_line=2,
-                    preceding_line_confirm=None,
-                    following_line_confirm="Line C"
-                )
-
-            === file.txt After ===
-            ```
-            New Line
-            Line C
-            ```
-        
-        Returns:
-            str: The entire text of the file after the insertion. Use this return 
-                value to verify that your intended changes were correctly apply.
         """
 
         self.state.raise_error_if_this_file_has_not_been_read_since_it_was_last_updated(path)
@@ -284,32 +237,6 @@ class InsertLines(Tool):
             text (str): The content to write to the file. Must end with a newline character.
             insert_line (int): The line number to insert the content at. -1 will insert at 
                 the end of the file.
-        
-        Usage:
-            === file.txt Before ===
-            ```
-            Line A
-            Line B
-            Line C
-            ```
-            
-            >>> insert_lines(
-                    path="./file.txt", 
-                    text="New Line\n",
-                    insert_line=2,
-                )
-
-            === file.txt After ===
-            ```
-            Line A
-            New Line
-            Line B        
-            Line C
-            ```
-        
-        Returns:
-            str: The entire text of the file after the insertion. Use this return 
-                value to verify that your intended changes were correctly apply.
         """
         self.state.raise_error_if_this_file_has_not_been_read_since_it_was_last_updated(path)
         if insert_line == -1:
@@ -345,25 +272,6 @@ class DeleteLines(Tool):
         Returns:
             str: The contents of the file after the deletion. Use this return 
                 value to verify that your intended changes were correctly apply.
-
-        Usage:
-            === file.txt Before ===
-            ```
-            Line A
-            Line B
-            Line C
-            ```
-            
-            >>> delete_lines(
-                    path="./file.txt", 
-                    start_line=2,
-                    end_line=3,
-                )
-
-            === file.txt After ===
-            ```
-            Line A
-            ```
         """
 
         self.state.raise_error_if_this_file_has_not_been_read_since_it_was_last_updated(path)

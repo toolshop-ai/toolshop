@@ -872,13 +872,13 @@ tests = ["pytest", "pytz", "simplejson"]
 
 [[package]]
 name = "marvin"
-version = "2.3.1"
+version = "2.3.6"
 description = "A lightweight AI engineering toolkit for building natural language interfaces that are reliable, scalable, and easy to trust."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "marvin-2.3.1-py3-none-any.whl", hash = "sha256:b8e057e2499877dbe526b24da968eafbbed84e7fb8795950e6b03aafd73b87d7"},
-    {file = "marvin-2.3.1.tar.gz", hash = "sha256:98619f215f91a653d4c768111104837feaaebda11cd6c35d1b9c140046384791"},
+    {file = "marvin-2.3.6-py3-none-any.whl", hash = "sha256:2d2f84dd7a8b09b7bb87bc0e7e1f90bbbdc5524c822b5d64a25e3315d08842e8"},
+    {file = "marvin-2.3.6.tar.gz", hash = "sha256:163bc1e13ae0a7d81f8557f857348b77ea6acfec696801dea5e18450ce8b9e66"},
 ]
 
 [package.dependencies]
@@ -887,7 +887,7 @@ fastapi = "*"
 httpx = ">=0.24.1"
 jinja2 = ">=3.1.2"
 jsonpatch = ">=1.33"
-openai = ">=1.4.0"
+openai = ">=1.21.0"
 partialjson = ">=0.0.5"
 prompt-toolkit = ">=3.0.33"
 pydantic = ">=2.4.2"
@@ -900,12 +900,12 @@ tzdata = ">=2023.3"
 uvicorn = ">=0.22.0"
 
 [package.extras]
-audio = ["PyAudio (>=0.2.11)", "PyObjC", "SpeechRecognition (>=3.10)", "playsound (>=1.0)", "pydub (>=0.25)", "simpleaudio (>=1.0)", "wheel (>=0.43.0)"]
+audio = ["PyAudio (>=0.2.11)", "SpeechRecognition (>=3.10)", "pydub (>=0.25)", "simpleaudio (>=1.0)"]
 chromadb = ["chromadb"]
 dev = ["black[jupyter]", "ipython", "marvin[tests]", "mkdocs-autolinks-plugin (>=0.7,<1.0)", "mkdocs-awesome-pages-plugin (>=2.8,<3.0)", "mkdocs-jupyter (>=0.24.1)", "mkdocs-markdownextradata-plugin (>=0.2,<1.0)", "mkdocs-material[imaging] (>=9.1.17)", "mkdocstrings[python] (>=0.22,<1.0)", "pdbpp (>=0.10,<1.0)", "pre-commit (>=2.21,<4.0)", "pydantic[dotenv]", "ruff"]
 generator = ["datamodel-code-generator (>=0.20.0)"]
 prefect = ["prefect (>=2.14.9)"]
-slackbot = ["marvin[chromadb]", "marvin[prefect]", "numpy"]
+slackbot = ["marvin[prefect]", "numpy", "raggy", "turbopuffer"]
 tests = ["pytest (>=7.3.1,<7.4.0)", "pytest-asyncio (>=0.18.2,!=0.22.0,<0.23.0)", "pytest-env (>=0.8,<2.0)", "pytest-rerunfailures (>=10,<14)", "pytest-sugar (>=0.9,<2.0)", "pytest-timeout", "pytest-xdist"]
 video = ["opencv-python (>=4.5)"]
 
@@ -1077,13 +1077,13 @@ files = [
 
 [[package]]
 name = "openai"
-version = "1.18.0"
+version = "1.35.13"
 description = "The official Python library for the openai API"
 optional = false
 python-versions = ">=3.7.1"
 files = [
-    {file = "openai-1.18.0-py3-none-any.whl", hash = "sha256:2f461f0724cc3a6d862a35509b45cf73bc4c96c43a963e29bf74caab7eae105b"},
-    {file = "openai-1.18.0.tar.gz", hash = "sha256:4d6151d9dc3cd387741a2129bbe8ce149a85b2383558bb96a01f27144519a2a7"},
+    {file = "openai-1.35.13-py3-none-any.whl", hash = "sha256:36ec3e93e0d1f243f69be85c89b9221a471c3e450dfd9df16c9829e3cdf63e60"},
+    {file = "openai-1.35.13.tar.gz", hash = "sha256:c684f3945608baf7d2dcc0ef3ee6f3e27e4c66f21076df0b47be45d57e6ae6e4"},
 ]
 
 [package.dependencies]
@@ -2006,4 +2006,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "0350deba3e2d824a79186c7fc3cda8733ee534aace6fdfe500519a5c79bbc6cc"
+content-hash = "bb76434c4a0f4c85391097d29f82ec5fd8c29cf90e76bd81f5449d1aae1fc059"

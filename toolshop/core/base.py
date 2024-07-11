@@ -6,7 +6,7 @@ import datetime
 
 import re
 
-from .logging import logger
+from toolshop.core.logging import logger
 
 
 class Parameter(BaseModel):
@@ -24,6 +24,12 @@ class Documentation(BaseModel):
     description: str
     parameters: Optional[list[Parameter]] = None
     usage: Optional[str] = None
+
+    def __post_init__(self):
+        MAX_OPENAI_DESCRIPTION_LENGTH = 1024
+
+        if len(self.description) > MAX_OPENAI_DESCRIPTION_LENGTH:
+            raise ValueError(f"Description is too long.  Max length is {MAX_OPENAI_DESCRIPTION_LENGTH}.")
 
     def __str__(self):
         parameter_string = "Args:\n"
@@ -58,6 +64,18 @@ class Tool(ABC):
         if self.call.__doc__:
             self.__doc__ = self.call.__doc__  
         
+
+        MAX_OPENAI_DESCRIPTION_LENGTH = 1024
+
+        if len(self.__doc__) > MAX_OPENAI_DESCRIPTION_LENGTH:
+            raise ValueError(
+              f"Description is too long "
+              f"for tool {self.__name__}. Max length is "
+              f"{MAX_OPENAI_DESCRIPTION_LENGTH} but current."
+              f"description length is {len(self.__doc__)}."
+            )
+
+        
     @abstractmethod
     def call(self, *args, **kwargs):
         pass
@@ -79,7 +97,6 @@ class Tool(ABC):
                     return lambda *args, **kwargs: None
 
             return NoOp()
-    
 
     def return_result_to_agent(self):
         if hasattr(self, "_return_result_to_agent"):
@@ -136,7 +153,7 @@ class Tool(ABC):
         if self.return_result_to_agent():
             return result
 
-    def to_marvin(self):
+    def get_partial(self):
         import inspect
 
         # Create a new function that wraps 'self.__call__' following the exact signature of 'call'
@@ -150,6 +167,8 @@ class Tool(ABC):
 
         return partial_func
 
+    def to_marvin(self):
+        return self.get_partial()
 
 
 class State:
@@ -157,7 +176,6 @@ class State:
         self.file_read_at = {}
         self.file_updated_at = {}
         self.coder_confirms = 0
-        self.disable_result_to_file_attempts = 0
     
     def record_file_read(self, file_path: str):
         self.file_read_at[file_path] = datetime.datetime.now()

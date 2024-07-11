@@ -2,7 +2,7 @@ from typing import Tuple, List
 
 import sqlalchemy as sa
 
-from .base import Tool
+from ..core.base import Tool
 
 
 class Sql(Tool):
@@ -43,14 +43,6 @@ class Histogram(Tool):
             title="Chart Tile", 
             data=[('p0', 0), ('p25', 100), ('p50', 200), ('p75', 300), ('p75', 400)]
         )
-        
-        Chart Tile
-        ###############################################################################
-                                                                                0  p0 
-        █████████████████                                                      100  p25
-        ██████████████████████████████████                                     200  p50
-        ███████████████████████████████████████████████████                    300  p75
-        █████████████████████████████████████████████████████████████████████  400  p75
         """
         
         # Check if ascii_graph is installed, since it is an optional dependency.

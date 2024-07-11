@@ -1,10 +1,8 @@
 
-import httpx
 import os
  
-from .base import Tool
+from ..core.base import Tool
 from .terminal import shell_helper
-from .logging import logger
 
 
 class GetBigQueryTableSchema(Tool):
