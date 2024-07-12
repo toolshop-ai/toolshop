@@ -33,7 +33,7 @@ steps you will take to execute the request.
 DEFINITIONS = """
 # Definitions
 - **grok**: To read and understand the contents of a file, solely for your 
-own knowledge as the assistant. When groking a file, you do not summarize the
+own knowledge as the assistant. When groking a file, you should not summarize the
 contents to the user.
 """
 

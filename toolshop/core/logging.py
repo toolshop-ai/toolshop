@@ -11,6 +11,7 @@ class LoggingPreset(enum.Enum):
     """Enum for logging presets"""
     MINIMAL_VERBOSE = 'minimal_verbose'
     CLASSIC_VERBOSE = 'classic_verbose'
+    MINIMAL = 'minimal'
 
 
 def configure_logging(preset=None, level=None, format=None):
@@ -22,6 +23,9 @@ def configure_logging(preset=None, level=None, format=None):
         elif preset == LoggingPreset.CLASSIC_VERBOSE:
             level = logging.INFO
             format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        elif preset == LoggingPreset.MINIMAL:
+            level = logging.WARNING
+            format = '%(message)s'
     
     logger.setLevel(level)
     for h in logger.handlers:
@@ -32,4 +36,4 @@ def configure_logging(preset=None, level=None, format=None):
 
 
 # Set toolshop's default logging configuration
-configure_logging(preset=LoggingPreset.MINIMAL_VERBOSE)
+configure_logging(preset=LoggingPreset.MINIMAL)

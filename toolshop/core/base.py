@@ -75,7 +75,7 @@ class Tool(ABC):
               f"description length is {len(self.__doc__)}."
             )
 
-        
+
     @abstractmethod
     def call(self, *args, **kwargs):
         pass

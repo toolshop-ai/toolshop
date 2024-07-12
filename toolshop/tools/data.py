@@ -1,8 +1,9 @@
+import csv
+import io
+import sqlalchemy as sa
 from typing import Tuple, List
 
-import sqlalchemy as sa
-
-from ..core.base import Tool
+from toolshop.core.base import Tool
 
 
 class Sql(Tool):
@@ -10,23 +11,31 @@ class Sql(Tool):
         """Runs the sql query and returns result set as a CSV string. Always try 
         this tool for running sql queries first before trying other methods.
         
+        For bigquery, the database_uri indicates the project that should be billed
+        for the query. Set this to 'bigquery://' to use the default project configured
+        by the user.
+        
         Args:
-            database_uri (str): The database connection string which is passed 
-                to sqlachemy.create_engine().
             sql_query (str): The sql query to run
+            database_uri (str): The database connection string which is passed 
+                to sqlalchemy.create_engine().
         """
         engine = sa.create_engine(database_uri)
 
-        # Execute the query and fetch results
-        result = engine.execute(sql_query)
-        column_names = result.keys()
-        output = (','.join(column_names))
+        # Execute the query and fetch results using a connection
+        with engine.connect() as connection:
+            result = connection.execute(sa.text(sql_query))
+            column_names = result.keys()
+            
+            # Use csv module to create CSV formatted string
+            output = io.StringIO()
+            csv_writer = csv.writer(output)
+            csv_writer.writerow(column_names)
 
-        # Iterate over rows and print them as CSV
-        for row in result:
-            output += '\n' + ','.join([str(value) for value in row])
-
-        return output
+            for row in result:
+                csv_writer.writerow(row)
+        
+        return output.getvalue()
 
 
 class Histogram(Tool):
