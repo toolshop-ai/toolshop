@@ -1,9 +1,6 @@
 # Toolshop
 A Tool Framework for AI Agents
 
-# Demo
-![Demo](https://dl.dropboxusercontent.com/scl/fi/wd8kpdtdl1crlkc97lzup/bigquery_demo.gif?rlkey=7ken8foeebrifespruzg90zw6&raw=1)
-
 # Description
 Toolshop is a general framework for developing tools used by LLM Agents. The
 library ships with a standard set of tools that can be used by agents that
