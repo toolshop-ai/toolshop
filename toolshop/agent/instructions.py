@@ -41,18 +41,6 @@ Here are current outputs from some shell commands
 `whoami`: {shell_helper('whoami')}
 """
 
-coder_context = _read_helper(
-    "~/.coder-context", 
-    include_line_numbers=False,
-    error_if_missing=False
-)
-
-USER_CONTEXT = f"""
-# Context from User
-The user has provided the following additional context:
-{coder_context}
-""" if coder_context else ""
-
 
 COLLABORATION_INSTRUCTIONS_NON_INTERACTIVE = """
 # Collaboration
@@ -61,7 +49,8 @@ must complete the request without any further input from the user.
 """
 
 
-def get_coder_instructions(coder_is_interactive:bool = True):
+def get_coder_instructions(coder_is_interactive:bool = True, user_context = ""):
+
     return f"""
 {GENERAL_INSTRUCTIONS}
 
@@ -71,5 +60,7 @@ def get_coder_instructions(coder_is_interactive:bool = True):
 
 {SHELL_CONTEXT}
 
-{USER_CONTEXT}
+# Context from User
+The user has provided the following additional context:
+{user_context}
 """

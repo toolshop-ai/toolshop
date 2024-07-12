@@ -9,9 +9,10 @@ def toolshop(ctx):
         click.echo("Welcome to Toolshop!")
 
 @toolshop.command()
-def chat():
+@click.option('--context', help='Path to context file', default=None)
+def chat(context: str = None):
     """Start the chat with Agent."""
-    app = Agent(coder_is_interactive=True)
+    app = Agent(coder_is_interactive=True, context_path=context)
     app.chat()
 
 @toolshop.command()

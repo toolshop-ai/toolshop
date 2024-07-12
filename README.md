@@ -43,7 +43,7 @@ developing tools with Toolshop, your tools inherit several helpful features.
   reads before file edits, and cost-based limits on tool usage.
 
 
-# Design Philosphy
+# Guiding Principles
 
 ### Design for AGI
 Agents will continue to improve

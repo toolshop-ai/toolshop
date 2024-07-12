@@ -18,9 +18,19 @@ marvin.settings.openai.assistants.model = "gpt-4o"
 class Agent(Application):
     def __init__(
         self, 
-        coder_is_interactive: bool = True
+        coder_is_interactive: bool = True,
+        context_path = None
     ):
-        instructions = get_coder_instructions(coder_is_interactive)
+        if context_path:
+            with open(context_path, 'r') as f:
+                user_context = f.read()
+        else:
+            user_context = ""
+
+        instructions = get_coder_instructions(
+            coder_is_interactive=coder_is_interactive,
+            user_context=user_context
+        )
 
         super().__init__(
             name="Agent",

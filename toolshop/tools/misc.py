@@ -4,6 +4,7 @@ def all_tools(framework='marvin'):
     from toolshop.tools.file import make_file_tools
     from toolshop.core.meta import EnableResultToFile
     from toolshop.core.base import State
+    from toolshop.tools.gcp import AuthenticateToGCP
 
     state = State()
 
@@ -14,6 +15,7 @@ def all_tools(framework='marvin'):
         Sql(state=state),
         Histogram(state=state),
         EnableResultToFile(state=state),
+        AuthenticateToGCP(state=state),
         *make_file_tools(state=state),
     ]
     
