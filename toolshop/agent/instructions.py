@@ -30,6 +30,13 @@ requests you to share you plan, describe the tool calls you plan to make and the
 steps you will take to execute the request.
 """
 
+DEFINITIONS = """
+# Definitions
+- **grok**: To read and understand the contents of a file, solely for your 
+own knowledge as the assistant. When groking a file, you do not summarize the
+contents to the user.
+"""
+
 SHELL_CONTEXT = f"""
 # Context from Shell
 Here are current outputs from some shell commands
@@ -57,6 +64,8 @@ def get_coder_instructions(coder_is_interactive:bool = True, user_context = ""):
 {COLLABORATION_INSTRUCTIONS_INTERACTIVE if coder_is_interactive else COLLABORATION_INSTRUCTIONS_NON_INTERACTIVE}
 
 {TOOL_INSTRUCTIONS}
+
+{DEFINITIONS}
 
 {SHELL_CONTEXT}
 
