@@ -41,27 +41,33 @@ app.say("Write mergesort.py")
 app.say("Test mergesort.py")
 ```
 
-# Design
-The reasoning and planning capabilities of agentic AI offered "out of the box"
-by companies such as OpenAI and Anthropic will continue to improve over time. It
-is potentially risky to focus development time on improvements to reasoning and
-planning capabilities, because these techniques will likely become embedded in
-the base assistant services themselves. 
+# Motivation
+Toolshop seeks to provide a tool development platform for AI engineers. The
+motivation for this project is the belief that tool development is the best
+place for AI developers to invest their time. Conversely, time spent augmenting
+the reasoning and planning of existing assistant services is a risky area to
+invest as a 3rd party developer.  This is simply because the reasoning and
+planning capabilities of agentic AI, offered "out of the box" by companies such
+as OpenAI and Anthropic, will continue to improve over time. Focusing
+development time on enhancing these capabilities is potentially risky, as 
+improves to the base assistant services themselves will quickly render this work
+obsolete.
 
-The movement of companies like
+The shift of companies like
 [OpenAI](https://platform.openai.com/docs/guides/text-generation/completions-api)
 and [Anthropic](https://docs.anthropic.com/claude/reference/complete_post) away
-from simple text-completion models and towards tool-enabled chat assistants
+from simple text-completion models towards tool-enabled chat assistants
 abstracts more from the user, thereby increasing the surface area for AI R&D. We
-should expect these companies will continually improve their flagship assistant
-services. Improvements to reasoning and planning are obvious ways to do so.
+should expect these companies to continually improve their flagship assistant
+services, with enhancements in reasoning and planning being obvious avenues for
+development.
 
-By contrast, tool development is a relatively safe place to invest development
-time, and Toolshop offers a solid foundation to do so. An agent will always
-require a way to affect its environment or to access information it was not
+In contrast, tool development seems like a safe area for investment, and
+Toolshop provides a solid foundation for this purpose. An agent will always
+require a means to affect its environment or access information it was not
 trained on. The tool-calling paradigm has emerged as a simple and effective
-pattern to support these needs. Smarter models are actually able to use tools
-more correctly and efficiently, and so investments in solid tools will pay
-dividends as models improve. Additionally, by enforcing guardrails in the tools
-rather than process, the planning and reasoning process native to the underlying
-agent is unhindered.
+pattern to support these needs. Smarter models are able to use tools more
+correctly and efficiently, so investments in solid tools will pay dividends as
+models improve. Additionally, by enforcing guardrails in the tools rather than
+in the process, the planning and reasoning process native to the underlying
+agent remains unhindered.
