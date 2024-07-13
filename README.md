@@ -50,7 +50,7 @@ invest as a 3rd party developer.  This is simply because the reasoning and
 planning capabilities of agentic AI, offered "out of the box" by companies such
 as OpenAI and Anthropic, will continue to improve over time. Focusing
 development time on enhancing these capabilities is potentially risky, as 
-improves to the base assistant services themselves will quickly render this work
+improvements to the base assistant services themselves will quickly render this work
 obsolete.
 
 The shift of companies like
